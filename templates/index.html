@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Add Font Awesome CSS in the <head> section of your HTML -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <title>NewGenStore - Home</title>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">NewGenStore</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/products">Products</a>
+            </li>
+           
+            {% if 'user_id' in session %}
+            <li class="nav-item">
+                <a class="nav-link" href="#">Welcome, {{session['username'] }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/register">Register</a>
+            </li>
+            {% endif %}
+            <div class="cart-icon">
+                <i class="fas fa-shopping-cart"></i> <!-- Cart icon from Font Awesome -->
+                <span class="cart-quantity">{{ cart.get('quantity', 0) }}</span> <!-- Display the quantity -->
+                <span class="cart-price">${{ cart.get('total', 0)|round(2) }}</span> <!-- Display the total price -->
+            </div>
+           
+            <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('checkout') }}">Checkout</a>
+            </li>
+           
+        </ul>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="hero">
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-lg">
+                <!-- Hero Section -->
+                <div class="jumbotron jumbotron-fluid" style="height: 30em; background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa'); background-size: cover;">
+                    <div class="container text-center text-white">
+                        <h1 class="display-4">Discover the Future Today</h1>
+                        <p class="lead">Explore the latest tech gadgets and innovations in one place.</p>
+                        <a class="btn btn-primary btn-lg" href="/buy-now" role="button">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Products Section -->
+<!-- Featured Products Section -->
+<div class="featured-products">
+    <div class="container">
+        <h2>Featured Products</h2>
+        <div class="row">
+            {% for product in featured_products %}
+            <div class="col-lg-4">
+                <div class="product-card">
+                    <img src="{{ product.image_url }}" alt="{{ product.product_name }}" style="max-width: 15em; max-height: 10em;">
+                    <h3>{{ product.product_name }}</h3>
+                    <p>{{ product.description }}</p>
+                    <p>Price: (EUR){{ product.price }}</p>
+                    <a class="add-to-cart-btn"  data-product-id="{{ product.product_id }}">Add to Cart</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+<!-- Why Choose Us Section -->
+<div class="why-choose-us">
+    <div class="container">
+        <h2>Why Choose Us</h2>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="feature">
+                    <h3>Quality Products</h3>
+                    <p>We offer a wide range of high-quality products.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="feature">
+                    <h3>Fast Shipping</h3>
+                    <p>Our shipping is fast and reliable.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="feature">
+                    <h3>Customer Satisfaction</h3>
+                    <p>Customer satisfaction is our top priority.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <h4>Contact Us</h4>
+                <p>Email: info@newgenstore.com</p>
+                <p>Phone: +123-456-7890</p>
+            </div>
+            <div class="col-lg-4">
+                <h4>Follow Us</h4>
+                <ul class="list-unstyled">
+                    <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                    <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                    <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-4">
+                <h4>Quick Links</h4>
+                <ul class="list-unstyled">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-lg-12 text-center">
+                <p>&copy; 2023 NewGenStore. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+<script>
+    // Wait for the DOM to load
+    document.addEventListener("DOMContentLoaded", function () {
+        // Find all elements with the class 'add-to-cart-btn'        
+        const addToCartButtons = document.querySelectorAll(".add-to-cart-btn");
+
+        // Attach a click event listener to each button
+        addToCartButtons.forEach(function (button) {
+            button.addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent the default link behavior
+
+                // Get the product ID from the data-product-id attribute
+                const productId = button.getAttribute("data-product-id");
+
+                // Send an AJAX request to add the product to the cart
+                fetch(`/add-to-cart/${productId}`, {
+                    method: "POST",
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Update the cart quantity and total in the HTML
+                        document.querySelector('.cart-quantity').textContent = data.quantity;
+                        document.querySelector('.cart-price').textContent = `$${data.total.toFixed(2)}`;
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                    });
+            });
+        });
+    });
+</script>
+
+
+</html>

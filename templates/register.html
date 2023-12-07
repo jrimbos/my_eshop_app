@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - NewGenStore</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='loginstyle.css') }}">
+
+    
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 offset-lg-4">
+                <div class="container-login">
+                    <h2>Register for NewGenStore</h2>
+                    <form method="POST" action="{{ url_for('register') }}">
+                        <div class="form-group">
+                            <label for="first_name">First Name:</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Last Name:</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm_password">Confirm Password:</label>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-block btn-login">Register</button>
+                        </div>
+                    </form>
+                    <p class="text-center">Already have an account? <a href="{{ url_for('login') }}" class="link-login">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- Error Modal -->
+     {% if error %}
+    
+     <div class="modal" id="errorModal" role="dialog" style=" background-color: aliceblue;">
+         <div class="modal-dialog" role="document">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title">Error</h5>
+                     <button type="button" class="close" aria-label="Close" id="closeErrorModal">
+                         <span aria-hidden="true">&times;</span>
+                     </button>
+                 </div>
+                 <div class="modal-body">
+                     <p>{{ error }}</p>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" id="closeErrorButton">Close</button>
+                 </div>
+             </div>
+         </div>
+     </div>
+     
+     {% endif %}
+
+     <script>
+        // JavaScript code to show/hide the error modal
+        document.addEventListener('DOMContentLoaded', function () {
+            var errorMessage = "{{ error|default('') }}";  // Get the error message from Flask
+            var errorModal = document.getElementById('errorModal');
+    
+            if (errorMessage) {
+                errorModal.style.display = "block";  // Show the error modal if there's an error message
+    
+                // Close the modal without destroying it when the "Close" button is clicked
+                document.getElementById('closeErrorButton').addEventListener('click', function () {
+                    errorModal.style.display = "none";
+                });
+    
+                // Close the modal without destroying it when the close icon is clicked
+                document.getElementById('closeErrorModal').addEventListener('click', function () {
+                    errorModal.style.display = "none";
+                });
+            }
+        });
+    </script>
+</body>
+</html>
